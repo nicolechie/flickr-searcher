@@ -22,11 +22,15 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+      <div class="search">
+        <p class="load" ng-show="searching" ng-hide="!searching">Searching Flickr for photos tagged with "{{ tag }}"</p>
+        <p ng-show="results" ng-hide="!results">We found {{ totalResults | number }} results for "{{ tag }}"</p>
+        <p ng-show="failure" ng-hide="!failure">Call to server has failed :(</p>
+      </div>
             <div ng-show="showPhotos" ng-hide="!showPhotos" ng-repeat="photo in photos">
-              <div> {{photo.title}}
+              <div class="col-md-4">
 
-                <img ng-src="https://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg
-" alt="Description" /> 
+                <img class="pad15" ng-src="https://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_q.jpg" alt="Description" class="img-responsive"/> 
 
               </div>
             </div>

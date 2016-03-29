@@ -1,16 +1,17 @@
 angular.module('flickr',['ngAnimate'])
 
 .controller('FlickrController', ['$scope', '$http', '$q', function($scope, $http, $q){
-	// $scope.searchTerm = null;
 	$scope.getPhotos = getPhotos;
 	$scope.showPhotos = false;
-
-	'https://farm{farmId}.staticflickr.com/{serverId}/{id}_{secret}.jpg'
-
+	$scope.results = false;
+	$scope.searching = false;
+	$scope.tag = '';
+	$scope.failure = false;
+	
 	function getPhotos(searchTerm) {
-		// 1. Get search term
-		// 2. Request API data
-		// 3. Return matching photos
+		$scope.searching = true;
+		$scope.tag = searchTerm;
+
 		var params = {
 		    method: 'flickr.photos.search',
 		    api_key: '446cc7d031a22669d9e39d05e8a2f231',
@@ -26,14 +27,16 @@ angular.module('flickr',['ngAnimate'])
 		})
 		  .then(function(data, status, headers, config) {
 		    console.log('Success!', data);
+		    $scope.searching=false;
+		    $scope.searchTerm='';
+		    $scope.results=true;
 		    $scope.photos=data.data.photos.photo;
+		    $scope.totalResults=data.data.photos.total;
 		    $scope.showPhotos=true;
-		    // called when the data is available
 		  },
 		  function(data, status, headers, config) {
 		    console.log('Failure :(', data, status);
-		    // called when an error occurs or
-		    // the server returns data with an error status
+		    scope.failure=true;
 		  });
 		// var defer = $q.defer();
 		// defer.resolve();
